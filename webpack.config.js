@@ -13,13 +13,19 @@ module.exports = {
   },
   module: {
     loaders: [{
-      test: path.join(__dirname, 'client'),
+      include: path.join(__dirname, 'client'),
+      test: /\.(jsx|js)(\?.*)?$/,
       loader: ['babel-loader'],
       query: {
         cacheDirectory: 'babel_cache',
-        presets: debug ? ['react', 'es2015'] : ['react', 'es2015']
+        presets: debug ? ['react', 'es2015', 'stage-1'] : ['react', 'es2015', 'stage-1'],
+        plugins: ['transform-decorators-legacy', 'transform-strict-mode']
       }
     }]
+  },
+  resolve: {
+    root: path.join(__dirname, "client"),
+    extensions: ['', '.js', '.jsx']
   },
   plugins: debug ? [] : [
     new webpack.DefinePlugin({
